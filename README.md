@@ -31,4 +31,3 @@ The project is structured with two main components:
 - AWS DynamoDB for conversation history
 - AWS S3 for conversation storage
 
-### Integration Architecture
