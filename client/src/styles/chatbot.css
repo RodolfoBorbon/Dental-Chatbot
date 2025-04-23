@@ -1,0 +1,428 @@
+/* CHATBOT */
+.chatbot {
+  z-index: 10;
+}
+
+.chatbot-container {
+  position: fixed;
+  bottom: 100px;
+  right: 20px;
+  min-width: 400px;  /* Increased from 300px */
+  max-width: 600px;  /* Increased from 500px */
+  min-height: 500px; /* Increased from 400px */
+  max-height: 800px;
+  height: 70vh;      /* Increased from 60vh */
+  width: 30vw;       /* Increased from 20vw */
+  background-color: var(--background-color);
+  border-radius: var(--border-radius-lg);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+}
+
+.chatbot-chat-button {
+  position: fixed;
+  bottom: 40px;
+  right: 20px;
+  background-color: var(--primary-color);
+  color: var(--tile-color);
+  border: none;
+  border-radius: 30px;
+  width: auto;       /* Changed from fixed width to auto */
+  padding: 0 20px;   /* Added padding for text */
+  height: 50px;
+  font-size: 1em;   /* Reduced from 1.5em since we now have text */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+}
+
+.chatbot-chat-button::before {
+  content: '💬';
+  font-size: 1.3rem;
+}
+
+.chatbot-header {
+  background-color: var(--primary-color);
+  color: var(--tile-color);
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.chatbot-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.chatbot-logo svg {
+  width: 28px;
+  height: 28px;
+  fill: var(--text-color-light);
+}
+
+.chatbot-logo h3 {
+  margin: 0;
+}
+
+.close-chat {
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-size: 1em;
+}
+
+.chatbot-messages {
+  flex: 1;
+  overflow-y: auto;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.message {
+  margin: 10px 0;
+  padding: 15px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  max-width: 75%;
+  min-width: auto;
+  word-wrap: break-word;
+  text-align: left;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  position: relative;
+}
+
+.message.bot {
+  background-color: rgba(38, 166, 154, 0.15); /* Lighter version of secondary color */
+  color: var(--text-color-dark);
+  border-left: 4px solid var(--secondary-color);
+  align-self: flex-start;
+}
+
+.message.user {
+  background-color: var(--tile-color);
+  border: 1px solid #e0e0e0;
+  align-self: flex-end;
+}
+
+.message-text {
+  margin-bottom: 8px;
+  white-space: pre-wrap;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.message-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  color: #777;
+  margin-top: 4px;
+}
+
+.message-time {
+  font-size: 0.75rem;
+  color: #999;
+}
+
+.message.loading {
+  background-color: rgba(38, 166, 154, 0.1);
+  border-left: 4px solid var(--secondary-color);
+  align-self: flex-start;
+  padding: var(--spacing-md) var(--spacing-lg);
+  min-width: 100px;
+  max-width: 60%;
+}
+
+.typing-indicator {
+  display: flex;
+  align-items: center;
+  height: 30px;
+}
+
+.typing-indicator span {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.7);
+  margin: 0 3px;
+  transform: translateY(0);
+  animation: wave 1.5s ease-in-out infinite;
+}
+
+.typing-indicator span:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.typing-indicator span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.typing-indicator span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes wave {
+  0%, 60%, 100% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-10px);
+  }
+}
+
+.welcome-message {
+  border-radius: 8px;
+}
+
+.message-time {
+  text-align: right;
+}
+
+/* New controls section for the Start New Conversation button */
+.chatbot-controls {
+  display: flex;
+  justify-content: center;
+  padding: 5px;
+  border-top: 1px solid #ccc;
+}
+
+.new-conversation-button {
+  background-color: var(--secondary-color);
+  color: var(--text-color-light);
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 0.9em;
+}
+
+.new-conversation-button:hover {
+  background-color: var(--primary-color);
+}
+
+.new-conversation-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.chatbot-input {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-top: 1px solid #ccc;
+  gap: 5px;
+}
+
+.chatbot-input input:disabled,
+.chatbot-input button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.message-input {
+  flex: 1;
+  padding: 5px;
+  border: none;
+  border-radius: 5px;
+}
+
+.send-message-button {
+  background-color: var(--primary-color);
+  color: var(--tile-color);
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.message-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--spacing-sm);
+}
+
+.listen-button {
+  background-color: transparent;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  border-radius: var(--border-radius-sm);
+  padding: 2px 8px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  margin-left: 8px;
+}
+
+.listen-button:hover {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.listen-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.listen-button svg {
+  width: 12px;
+  height: 12px;
+  margin-left: 4px;
+  fill: currentColor;
+}
+
+.chatbot-controls-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.auto-speak-toggle {
+  display: flex;
+  align-items: center;
+  font-size: 0.8em;
+  color: white;
+  cursor: pointer;
+  background-color: rgba(255,255,255,0.15);
+  padding: 3px 8px;
+  border-radius: 20px;
+  margin-right: 8px;
+}
+
+.auto-speak-toggle input {
+  margin-right: 5px;
+}
+
+.toggle-label {
+  user-select: none;
+}
+
+/* Modern toggle switch for auto-speak */
+.toggle-switch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  background-color: rgba(255,255,255,0.15);
+  padding: 3px 8px;
+  border-radius: 20px;
+  margin-right: 8px;
+  user-select: none;
+  gap: 8px;
+}
+
+.toggle-switch__track {
+  position: relative;
+  display: inline-block;
+  width: 36px;
+  height: 18px;
+  background-color: rgba(255,255,255,0.2);
+  border-radius: 18px;
+  transition: all 0.3s ease;
+}
+
+.toggle-switch__thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  background-color: white;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.toggle-switch input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-switch input:checked + .toggle-switch__track {
+  background-color: var(--secondary-light);
+}
+
+.toggle-switch input:checked + .toggle-switch__track .toggle-switch__thumb {
+  transform: translateX(18px);
+}
+
+.toggle-switch__label {
+  color: white;
+  font-size: 0.8em;
+}
+
+/* Updated voice recording button */
+.voice-input-button {
+  background-color: var(--secondary-color);
+  color: var(--text-color-light);
+  border: none;
+  border-radius: 5px;
+  padding: 5px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  width: 40px;
+  height: 40px;
+}
+
+.voice-input-button svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+.voice-input-button.recording {
+  background-color: var(--danger-color);
+  animation: pulse 1.5s infinite;
+  box-shadow: 0 0 0 rgba(244, 67, 54, 0.4);
+}
+
+.voice-input-button.recording svg {
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.voice-input-button:hover {
+  background-color: var(--primary-color);
+}
+
+.voice-input-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Enhanced pulse animation for recording button */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(244, 67, 54, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(244, 67, 54, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(244, 67, 54, 0);
+  }
+}
